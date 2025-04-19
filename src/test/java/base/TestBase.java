@@ -1,42 +1,46 @@
-package OrangeTests;
+package base;
 
-import io.github.bonigarcia.wdm.WebDriverManager;
+
+import OrangePages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.ie.InternetExplorerDriver;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.annotations.*;
 
+import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 
 public class TestBase {
 
-    public static WebDriver driver;
+    protected WebDriver driver;
+    protected WebDriverWait wait;
+    protected LoginPage loginPage;
 
-    @BeforeSuite
+    String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
+
+    @BeforeClass
     @Parameters({"browser"})
     public void SetUpEnv(@Optional("chrome") String browserName){
 
         if(browserName.equalsIgnoreCase("chrome")){
-            // for webdrivermanger
-            WebDriverManager.chromedriver().setup();
             driver = new ChromeDriver();
         } else if (browserName.equalsIgnoreCase("firefox")) {
-            WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
         } else if (browserName.equalsIgnoreCase("ie")) {
-            WebDriverManager.iedriver().setup();
             driver = new InternetExplorerDriver();
         }
-
         driver.manage().window().maximize();
-        driver.manage().timeouts().implicitlyWait(120, TimeUnit.SECONDS);
-        driver.navigate().to("https://opensource-demo.orangehrmlive.com/web/index.php/auth/login");
+        driver.get(url);
+        wait = new WebDriverWait(driver, Duration.ofSeconds(120));
+        loginPage = new LoginPage(driver,wait);
+        loginPage.waitLoginButton();
 
     }
 
 
-    @AfterSuite
+    @AfterClass
     public void TearDown(){
         driver.quit();
     }
