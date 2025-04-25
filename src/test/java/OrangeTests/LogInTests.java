@@ -9,21 +9,19 @@ import org.testng.annotations.Test;
 
 public class LogInTests extends TestBase {
 
-    @Test(priority = 2)
+    @Test
     public void logInSuccessfully(){
 
-            loginPage.loginData("Admin","admin123");
-            loginPage.loginSubmit();
-            wait.until(ExpectedConditions.urlContains("dashboard"));
+            loginPage.loginData("Admin","admin123").loginClick().waitForDashboard()
+                    .waitForMenuAndClick().clickLogout().waitForLogin();
 
     }
 
-    @Test(priority = 1)
+    @Test
     public void invalidLogin(){
 
-        loginPage.loginData("Admin","admin");
-        loginPage.loginSubmit();
-        loginPage.invalidMessages();
+        loginPage.loginData("Admin","admin").loginClick()
+                .invalidMessages();
 
     }
 
