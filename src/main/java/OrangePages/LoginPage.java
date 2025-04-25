@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.asserts.SoftAssert;
 
 import java.time.Duration;
 
@@ -12,17 +13,22 @@ public class LoginPage {
     private WebDriver driver;
     private WebDriverWait wait;
 
+    SoftAssert assert1;
+
     //WebElements
-    private By USERNAME = By.name("username");
-    private By PASSWORD = By.name("password");
-    private By LOGIN_BTN = By.xpath("//*[@type=\"submit\"]");
+    static By USERNAME = By.name("username");
+    static By PASSWORD = By.name("password");
+    static By LOGIN_BTN = By.xpath("//*[@type=\"submit\"]");
 
-    private By INVALID_MESSAGE = By.cssSelector("p.oxd-alert-content-text");
+    static By INVALID_MESSAGE = By.cssSelector("p.oxd-alert-content-text");
 
+    static By EMPTY_USERNAME = By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[1]/div/span");
+    static By EMPTY_PASSWORD = By.xpath("//*[@id=\"app\"]/div[1]/div/div[1]/div/div[2]/div[2]/form/div[2]/div/span");
     //Constructor
     public LoginPage(WebDriver driver){
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds((120)));
+        assert1 = new SoftAssert();
     }
 
     //Login Methods
@@ -54,5 +60,19 @@ public class LoginPage {
         return new HomePage(driver);
     }
 
+    public void usernameEmpty(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(EMPTY_USERNAME));
+        assert1.assertEquals(driver.findElement(EMPTY_USERNAME).getText(),"Required");
+    }
 
+    public void passwordEmpty(){
+        wait.until(ExpectedConditions.presenceOfElementLocated(EMPTY_PASSWORD));
+        assert1.assertEquals(driver.findElement(EMPTY_PASSWORD).getText(),"Required");
+    }
+
+    public void emptyFields(){
+        usernameEmpty();
+        passwordEmpty();
+
+    }
 }

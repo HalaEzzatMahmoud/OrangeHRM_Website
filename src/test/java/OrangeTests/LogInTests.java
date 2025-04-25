@@ -20,42 +20,39 @@ public class LogInTests extends TestBase {
     @Test
     public void invalidLogin(){
 
-        loginPage.loginData("Admin","admin").loginClick()
+        loginPage.loginData("Hala","khtfy").loginClick()
                 .invalidMessages();
-
-    }
-
-    /*@Test
-    public void logInWrongUsername(){
-        logInPageObject = new LogInPage(driver);
-        logInPageObject.setLogInInfo("UserName","admin123");
-        //logInPageObject.assertMessages("Invalid credentials");
     }
 
     @Test
-    public void logInUsernameEmptyInput(){
-        logInPageObject = new LogInPage(driver);
-        logInPageObject.setLogInInfo("","admin123");
-        Assert.assertEquals(logInPageObject.requiredUsername.getText(),"Required");
+    public void invalidPassword(){
+        loginPage.loginData("Hala","khtfy").loginClick()
+                .invalidMessages();
+    }
+
+
+    @Test
+    public void invalidUsername(){
+        loginPage.loginData("Hala","admin123").loginClick()
+                .invalidMessages();
     }
 
     @Test
-    public void logInPasswordEmptyInput(){
-        logInPageObject = new LogInPage(driver);
-        logInPageObject.setLogInInfo("Admin","");
-        Assert.assertEquals(logInPageObject.requiredPassword.getText(),"Required");
+    public void emptyFieldUsername(){
+        loginPage.loginData("","admin123").loginClick()
+                .usernameEmpty();
     }
 
     @Test
-    public void logInEmptyInputs(){
-        logInPageObject = new LogInPage(driver);
-        logInPageObject.setLogInInfo("","");
-        Assert.assertEquals(logInPageObject.requiredUsername.getText(),"Required");
-        Assert.assertEquals(logInPageObject.requiredPassword.getText(),"Required");
-    }*/
+    public void emptyFieldPassword(){
+        loginPage.loginData("Admin","").loginClick()
+                .passwordEmpty();
+    }
 
-
-
-
+    @Test
+    public void bothFieldsEmpty(){
+        loginPage.loginData("","").loginClick()
+                .emptyFields();
+    }
 
 }
