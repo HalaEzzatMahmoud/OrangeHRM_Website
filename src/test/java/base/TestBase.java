@@ -1,6 +1,7 @@
 package base;
 
 
+import OrangePages.HomePage;
 import OrangePages.LoginPage;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
@@ -19,6 +20,8 @@ public class TestBase {
     protected WebDriverWait wait;
     protected LoginPage loginPage;
 
+    protected HomePage homePage;
+
     String url = "https://opensource-demo.orangehrmlive.com/web/index.php/auth/login";
 
     @BeforeClass
@@ -36,6 +39,7 @@ public class TestBase {
         driver.get(url);
         loginPage = new LoginPage(driver);
         loginPage.waitLoginButton();
+        homePage = new HomePage(driver);
 
     }
 

@@ -14,6 +14,7 @@ public class HomePage {
     static By MENU = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/header/div[1]/div[3]/ul/li/span/i");
     static By LOGOUT = By.xpath("//*[@id=\"app\"]/div[1]/div[1]/header/div[1]/div[3]/ul/li/ul/li[4]/a");
 
+    static By CHANGE_PASSWORD = By.linkText("Change Password");
     public HomePage(WebDriver driver){
         this.driver = driver;
         wait = new WebDriverWait(driver, Duration.ofSeconds(120));
@@ -31,5 +32,12 @@ public class HomePage {
 
     public void waitForLogin(){
         wait.until(ExpectedConditions.urlContains("login"));
+
+    }
+
+    public ChangePasswordPage clickChangePassword(){
+        wait.until(ExpectedConditions.elementToBeClickable(CHANGE_PASSWORD)).click();
+        wait.until(ExpectedConditions.urlContains("updatePassword"));
+        return new ChangePasswordPage(driver);
     }
 }
